@@ -2,8 +2,10 @@ import time
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 """
+    1. Сценарий.
     тест проводится в браузере Chrome
 """
 
@@ -13,7 +15,9 @@ def test_first_scenario():
     browser.get('https://sbis.ru/')
 
     browser.find_element(By.LINK_TEXT, 'Контакты').click()
-    browser.find_element(By.CSS_SELECTOR, "a[href='https://tensor.ru/']").click()
+    tensor = browser.find_element(By.CSS_SELECTOR, "a[href='https://tensor.ru/']")
+    tensor.click()
+
     time.sleep(4)
     browser.switch_to.window(browser.window_handles[1])
     blocks = browser.find_elements(By.CSS_SELECTOR, "p.tensor_ru-Index__card-title.tensor_ru-pb-16")
@@ -24,7 +28,6 @@ def test_first_scenario():
 
         about_link = browser.find_element(By.XPATH,
                                           "//a[@href='/about' and contains(@class, 'tensor_ru-link tensor_ru-Index__link')]")
-
 
         browser.execute_script("arguments[0].scrollIntoView(true);", about_link)
         time.sleep(1)
